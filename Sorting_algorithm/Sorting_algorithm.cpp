@@ -72,6 +72,10 @@ void bubble_sort(int a[], int n) {
         }
     }
 }
+// Quick sort
+void quick_sort(int a[], int n, int l, int r) {
+
+}
 
 // Menu của các thuật toán sắp xếp
 void menu_sorting(int a[], int n) {
