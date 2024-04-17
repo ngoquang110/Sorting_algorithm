@@ -68,7 +68,7 @@ void insertion_sort(int a[], int n) {
 
 // Merge sort
 // Hàm trộn 2 dãy tăng thành một dãy tăng
-void mixarr_incre(int a[], int b[], int c[], int m, int k, int& p) {
+/*void mixarr_incre(int a[], int b[], int c[], int m, int k, int& p) {
     int i = 0;
     int j = 0;
     p = m + k;
@@ -119,9 +119,79 @@ void merge(int a[], int l, int mid, int r) {
     delete []c;
     delete[]temp;
 }
+*/
+
+/*void merge(int a[], int l, int mid, int r) {
+    vector<int> x(a + l, a + mid + 1);
+    vector<int> y(a + mid + 1, a + r + 1);
+    int i = 0;
+    int j = 0;
+    while (i < x.size() && j < y.size()) {
+        if (x[i] < y[j]) {
+            a[l] = x[i];
+            l++;
+            i++;
+        }
+        if (y[j] < x[i]) {
+            a[l] = y[j];
+            l++;
+            j++;
+        }
+    }
+    while (i < x.size()) {
+        a[l] = x[i];
+        l++;
+        i++;
+    }
+    while (j < y.size()) {
+        a[l] = y[j];
+        l++;
+        j++;
+    }
+}*/
+
+void merge(int a[], int l, int mid, int r) {
+    int* b = new int[mid - l + 1];
+    int p = 0;
+    int* c = new int[r - mid];
+    int e = 0;
+    for (int i = l; i <= mid; i++) {
+        b[p++] = a[i];
+    }
+    for (int i = mid + 1; i <= r; i++) {
+        c[e++] = a[i];
+    }
+    int i = 0;
+    int j = 0;
+    while (i < p && j < e) {
+        if (b[i] < c[j]) {
+            a[l] = b[i];
+            ++l;
+            ++i;
+        }
+        else {
+            a[l] = c[j];
+            ++l;
+            ++j;
+        }
+    }
+    while (i < p) {
+        a[l] = b[i];
+        ++l;
+        ++i;
+    }
+    while (j < e) {
+        a[l] = c[j];
+        ++l;
+        ++j;
+    }
+    delete[]b;
+    delete[]c;
+}
 
 void merge_sort(int a[], int l, int r) {
-    if (l < r) { // Đoạn cần sắp xếp phải nhỏ hơn một phần tử chứ nó l=r thì chỉ có 1 phần tử, thế thì không cần sắp xếp
+    if (l >= r) return;
+    else { // Đoạn cần sắp xếp phải nhỏ hơn một phần tử chứ nó l=r thì chỉ có 1 phần tử, thế thì không cần sắp xếp
         int mid = (l + r) / 2;
         merge_sort(a, l, mid); // Sắp xếp bên trái 
         merge_sort(a, mid + 1, r); // Sắp xếp bên phải
@@ -153,6 +223,8 @@ void quick_sort(int a[], int l, int r) {
         }
         if (i <= j) {
             swap(a[i], a[j]);
+            i++;
+            j--;
         }
         if (i < r) {
             quick_sort(a, i, r);
@@ -209,9 +281,9 @@ int main()
     int n;
     cin >> n;
     int a[100];
-    hand_in(a, n);
+    random_in(a, n);
     merge_sort(a, 0, n - 1);
     in_screen(a, n);
-    
+
     return 0;
 }
