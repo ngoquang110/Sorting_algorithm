@@ -63,7 +63,15 @@ void selection_sort(int a[], int n) {
 }
 // Insertion sort
 void insertion_sort(int a[], int n) {
-
+    for (int i = 1; i < n; i++) {
+        int x = a[i];
+        int pos = i - 1;
+        while (pos >= 0 && x < a[pos]) {
+            a[pos + 1] = a[pos];
+            pos--;
+        }
+        a[pos + 1] = x;
+    }
 }
 
 // Merge sort
@@ -200,10 +208,10 @@ void merge_sort(int a[], int l, int r) {
 }
 // Bubble sort
 void bubble_sort(int a[], int n) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (a[i] > a[j]) {
-                swap(a[i], a[j]);
+    for (int i = 0; i <= n - 2; i++) {
+        for (int j = n - 1; j >= i + 1; j--) {
+            if (a[j] < a[j - 1]) {
+                swap(a[j], a[j - 1]);
             }
         }
     }
@@ -275,6 +283,96 @@ void run() {
         break;
     }
 }
+/*
+void insert_incre(int a[], int& n, int x) {
+    for (int i = 0; i < n; i++) {
+        if (x < a[i]) {
+            for (int j = n; j > i; j--) {
+                a[j] = a[j - 1];
+            }
+            a[i] = x;
+            break;
+        }
+    }
+    n++;
+}
+*/
+
+void insert_incre(int a[], int& n, int x) {
+    int pos = n - 1;
+    while (pos >= 0 && x < a[pos]) {
+        a[pos + 1] = a[pos];
+        pos--;
+    }
+    a[pos + 1] = x;
+    n++;
+}
+
+//Interchange sort
+void interchange_sort(int a[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (a[i] > a[j]) {
+                swap(a[i], a[j]);
+            }
+        }
+    }
+}
+
+// Heap sort
+// Xếp heap max
+void heapify(int a[], int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l < n && a[largest] < a[l]) {
+        largest = l;
+    }
+    if (r < n && a[largest] < a[r]) {
+        largest = r;
+    }
+
+    if (largest != i) {
+        swap(a[i], a[largest]);
+        heapify(a, n, largest);
+    }
+}
+
+void heap_sort(int a[], int n) {
+    // Tìm hàm heap max
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(a, n, i);
+    }
+    // Hoán đổi giá trị ở node gốc với phần tử ở cuối mảng rồi i-- nghĩa là không xét phần tử ở cuối mảng nữa
+    for (int i = n - 1; i >= 0; i--) {
+        swap(a[0], a[i]);
+        heapify(a, i, 0);
+    }
+}
+
+// Shaker sort
+void shaker_sort(int a[], int n) { // Đây là kiểu nâng cao của bubble sort khi mà nó xếp luôn cmn cả 2 chiều mà không cần phải quay đầu như bbs
+    int l = 0;
+    int r = n - 1;
+    int k = 0;
+    while (l < r) {
+        for (int i = l; i < r; i++) {
+            if (a[i] > a[i + 1]) {
+                swap(a[i], a[i + 1]);
+                k = i;
+            }
+        }
+        r = k;
+        for (int i = r; i > l; i--) {
+            if (a[i] < a[i - 1]) {
+                swap(a[i], a[i - 1]);
+                k = i;
+            }
+        }
+        l = k;
+   }
+}
 
 int main()
 {
@@ -282,8 +380,14 @@ int main()
     cin >> n;
     int a[100];
     random_in(a, n);
-    merge_sort(a, 0, n - 1);
+    shaker_sort(a, n);
     in_screen(a, n);
+    cout << endl;
+    int b;
+    cin >> b;
+    insert_incre(a, n, b);
+    in_screen(a, n);
+
 
     return 0;
 }
